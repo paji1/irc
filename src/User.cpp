@@ -7,10 +7,10 @@
 // 	std::string nickname;
 // 	std::string pass_auth;
 /*** ------------------------------- CONSTRUCTOR --------------------------------*/
-User::User(): connected(0), welcomed(1), owner(-1), username(""), nickname(""), pass_auth("")
+User::User() : connected(0), welcomed(1), owner(-1), username(""), nickname(""), pass_auth("")
 {
 }
-User::User(std::string _u, std::string _n) :connected(0), welcomed(1), owner(-1),  username(_u), nickname(_n), pass_auth("")
+User::User(std::string _u, std::string _n) : connected(0), welcomed(1), owner(-1), username(_u), nickname(_n), pass_auth("")
 {
 }
 
@@ -25,7 +25,7 @@ User::~User()
 }
 
 /*** --------------------------------- OVERLOAD ---------------------------------*/
-User&   User::operator=(User const & other )
+User &User::operator=(User const &other)
 {
 	this->nickname = other.nickname;
 	this->username = other.username;
@@ -35,13 +35,13 @@ User&   User::operator=(User const & other )
 	this->owner = other.owner;
 	return *this;
 }
-bool User::operator == (const User &_o)
+bool User::operator==(const User &_o)
 {
 	if (_o.nickname == this->nickname)
 		return true;
 	return false;
 }
-bool User::operator == (User &_o)
+bool User::operator==(User &_o)
 {
 	if (_o.nickname == this->nickname)
 		return true;
@@ -50,7 +50,7 @@ bool User::operator == (User &_o)
 
 /*** --------------------------------- METHODS ----------------------------------*/
 
-void	User::activateAuth()
+void User::activateAuth()
 {
 	if (pass_auth.size() && username.size() && nickname.size())
 		this->connected = 1;
@@ -59,4 +59,3 @@ void	User::activateAuth()
 /*** --------------------------------- ACCESSOR ---------------------------------*/
 
 /*** --------------------------------- ACEPTION ---------------------------------*/
-
