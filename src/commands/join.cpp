@@ -19,9 +19,9 @@ static std::string extract_token(std::stringstream &src)
 	return temp;
 }
 
-std::queue<std::pair<std::string, std::string> > get_channels_key(std::stringstream &stream)
+std::queue<std::pair<std::string, std::string>> get_channels_key(std::stringstream &stream)
 {
-	std::queue<std::pair<std::string, std::string> > map_ch;
+	std::queue<std::pair<std::string, std::string>> map_ch;
 	std::stringstream channles;
 	std::stringstream keys;
 
@@ -32,14 +32,14 @@ std::queue<std::pair<std::string, std::string> > get_channels_key(std::stringstr
 	return map_ch;
 }
 
-Channel& find_channel_add_user(Channel &channel, std::map<std::string, Channel> &channels, Message& message)
+Channel &find_channel_add_user(Channel &channel, std::map<std::string, Channel> &channels, Message &message)
 {
 
-	std::map<std::string, Channel>::iterator it = channels.find(channel._name); 
-	if (((*it).second).get_mode_status(I_MODE) )
+	std::map<std::string, Channel>::iterator it = channels.find(channel._name);
+	if (((*it).second).get_mode_status(I_MODE))
 	{
 		std::set<std::string>::iterator itt = ((*it).second).inveted.find(message._sender._client_user.nickname);
-		if(itt == ((*it).second).inveted.end() )
+		if (itt == ((*it).second).inveted.end())
 			throw std::string("not invited");
 		else
 			((*it).second).inveted.erase(itt);
@@ -49,7 +49,7 @@ Channel& find_channel_add_user(Channel &channel, std::map<std::string, Channel> 
 		throw std::string("limits");
 	}
 	int status = (*it).second.add_user(message._sender._client_user, channel._key);
-	
+
 	if (status == 1) // key invalid
 		throw std::string("key invalid");
 	else if (status == 2)
@@ -57,7 +57,7 @@ Channel& find_channel_add_user(Channel &channel, std::map<std::string, Channel> 
 	return (*it).second;
 }
 
-static bool check_channel_name(std::string& channel)
+static bool check_channel_name(std::string &channel)
 {
 	if (channel.empty())
 		return false;
@@ -65,7 +65,7 @@ static bool check_channel_name(std::string& channel)
 		return false;
 	std::string::iterator it;
 
-	for (it =  channel.begin() + 1 ; it != channel.end() ; it++)
+	for (it = channel.begin() + 1; it != channel.end(); it++)
 	{
 		if (!isalpha(*it) && !isalnum(*it))
 			return false;
@@ -75,7 +75,7 @@ static bool check_channel_name(std::string& channel)
 void Commands::join(Client *client, std::stringstream &_stream)
 {
 
-	std::queue<std::pair<std::string, std::string> > channells;
+	std::queue<std::pair<std::string, std::string>> channells;
 	channells = get_channels_key(_stream);
 	Message message(*client, "JOIN", client->_client_user.nickname + "!" + client->_client_user.username + "@" + client->host);
 	int sts = -1;
@@ -106,43 +106,43 @@ void Commands::join(Client *client, std::stringstream &_stream)
 			if (!sts)
 			{
 				message.clear_final();
-				channel._users.at(0).owner = 1; 
-				channel._topic_seter = client->_client_user.nickname; 
+				channel._users.at(0).owner = 1;
+				channel._topic_seter = client->_client_user.nickname;
 				// channel not exist
 			}
 			else
 				_server->sendMessageChannel(message, channel._name);
-			message.set_message_error(RPL_CREATIONTIME(_server->serverName, client->_client_user.nickname ,channel._name, "222"));
+			message.set_message_error(RPL_CREATIONTIME(_server->serverName, client->_client_user.nickname, channel._name, "222"));
 			_server->sendMessage_err(message);
-			message.set_message_error(RPL_CHANNELMODEIS(_server->serverName, client->_client_user.nickname ,channel._name, "+o",""));
+			message.set_message_error(RPL_CHANNELMODEIS(_server->serverName, client->_client_user.nickname, channel._name, "+o", ""));
 			_server->sendMessage_err(message);
-			message.set_message_error(RPL_TOPIC(_server->serverName,client->_client_user.nickname ,new_channel._name, channel._topic));
+			message.set_message_error(RPL_TOPIC(_server->serverName, client->_client_user.nickname, new_channel._name, channel._topic));
 			_server->sendMessage_err(message);
-			message.set_message_error(RPL_NAMREPLY(_server->serverName,client->_client_user.nickname ,new_channel._name,channel.get_channels_users()));
+			message.set_message_error(RPL_NAMREPLY(_server->serverName, client->_client_user.nickname, new_channel._name, channel.get_channels_users()));
 			_server->sendMessage_err(message);
-			message.set_message_error(RPL_ENDOFNAMES(_server->serverName,client->_client_user.nickname ,new_channel._name));
+			message.set_message_error(RPL_ENDOFNAMES(_server->serverName, client->_client_user.nickname, new_channel._name));
 			_server->sendMessage_err(message);
 		}
-		catch(std::string& e)
+		catch (std::string &e)
 		{
 			if (e == "key invalid")
 			{
-				message.set_message_error(ERR_BADCHANNELKEY(_server->serverName,client->_client_user.nickname ,new_channel._name));
+				message.set_message_error(ERR_BADCHANNELKEY(_server->serverName, client->_client_user.nickname, new_channel._name));
 				_server->sendMessage_err(message);
 			}
 			else if (e == "not invited")
 			{
-				message.set_message_error(ERR_INVITEONLYCHAN(_server->serverName,client->_client_user.nickname ,new_channel._name));
+				message.set_message_error(ERR_INVITEONLYCHAN(_server->serverName, client->_client_user.nickname, new_channel._name));
 				_server->sendMessage_err(message);
 			}
 			else if (e == "limits")
 			{
-				message.set_message_error(ERR_CHANNELISFULL(_server->serverName, client->_client_user.nickname ,new_channel._name));
+				message.set_message_error(ERR_CHANNELISFULL(_server->serverName, client->_client_user.nickname, new_channel._name));
 				_server->sendMessage_err(message);
 			}
 			else if (e == "invalid name of channnel")
 			{
-				message.set_message_error(ERR_BADCHANNAME(_server->serverName, client->_client_user.nickname ,new_channel._name));
+				message.set_message_error(ERR_BADCHANNAME(_server->serverName, client->_client_user.nickname, new_channel._name));
 				_server->sendMessage_err(message);
 			}
 		}
