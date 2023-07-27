@@ -6,7 +6,7 @@
 /*   By: tel-mouh <tel-mouh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 00:02:54 by ozahir            #+#    #+#             */
-/*   Updated: 2023/07/27 02:43:40 by tel-mouh         ###   ########.fr       */
+/*   Updated: 2023/07/27 09:17:37 by tel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,20 @@
 #include "Server.hpp"
 #include <netdb.h>
 
-
-void   getActivity(Server *server, std::string &def)
+void getActivity(Server *server, std::string &def)
 {
-  int index = rand() % server->activities.size();
-  def = server->activities[index];   
+    int index = rand() % server->activities.size();
+    def = server->activities[index];
 }
-static void getBotEntry(Server *server ,std::string &def, std::string bot)
+static void getBotEntry(Server *server, std::string &def, std::string bot)
 {
     if (bot == "bored")
-        {
-             getActivity(server, def);
-             return ;
-        }
+    {
+        getActivity(server, def);
+        return;
+    }
 }
-void	Commands::bot(Client *client, std::stringstream &stream)
+void Commands::bot(Client *client, std::stringstream &stream)
 {
     std::string bot;
     stream >> bot;
