@@ -2,24 +2,21 @@
 
 /*** ------------------------------- CONSTRUCTOR --------------------------------*/
 
-
-
-
-Message::Message(Client	&sender, const char *command) :_sender(sender), _source(""), 
-	_tag(""),
-	_command(command),
-	_param(""),
-	_trailing(""),
-	crlf("\r\n")
+Message::Message(Client &sender, const char *command) : _sender(sender), _source(""),
+														_tag(""),
+														_command(command),
+														_param(""),
+														_trailing(""),
+														crlf("\r\n")
 {
 }
-Message::Message(Client	&sender, const char *command, std::string source) :_sender(sender), _source(source), _tag(""), _command(command), _param(""),  _trailing(""), crlf("\r\n")
+Message::Message(Client &sender, const char *command, std::string source) : _sender(sender), _source(source), _tag(""), _command(command), _param(""), _trailing(""), crlf("\r\n")
 {
 }
 
 Message::Message(const Message &other) : _sender(other._sender)
 {
-	
+
 	*this = other;
 }
 
@@ -89,12 +86,12 @@ void Message::set_message()
 		_final_message = "@" + _tag + " ";
 	if (_source != "")
 		_final_message = _final_message + ":" + _source + " ";
-	_final_message = _final_message  + _command;
+	_final_message = _final_message + _command;
 	if (_param != "")
-		_final_message = _final_message + " " + _param;	
+		_final_message = _final_message + " " + _param;
 	if (_trailing != "")
 		_final_message = _final_message + " :" + _trailing;
-	_final_message =  _final_message + "\r\n";
+	_final_message = _final_message + "\r\n";
 }
 void Message::set_message_error(const std::string &error)
 {
@@ -107,7 +104,7 @@ size_t Message::size()
 	return _final_message.length();
 }
 
-void Message::clear_final() 
+void Message::clear_final()
 {
 	_tag = "";
 	_param = "";
