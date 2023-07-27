@@ -4,17 +4,17 @@ std::string Commands::mode_i(Channel &channel, User &user, const std::string &st
 {
 	if (!channel.is_operator(user))
 		throw std::string("ERR_CHANOPRIVSNEEDED");
-	
+
 	if (sign == '-' && channel.get_mode_status(I_MODE))
 	{
 		channel.unset_mode(I_MODE);
-		
-		msg_tmp->set_message_error(RPL_CHANNELMODEIS(_server->serverName,msg_tmp->_source, channel._name, "-i",""));
+
+		msg_tmp->set_message_error(RPL_CHANNELMODEIS(_server->serverName, msg_tmp->_source, channel._name, "-i", ""));
 		_server->sendMessage_err(*msg_tmp);
 	}
 	else if (sign == '+' && !channel.get_mode_status(I_MODE))
 	{
-		msg_tmp->set_message_error(RPL_CHANNELMODEIS(_server->serverName,msg_tmp->_source, channel._name, "+i",""));
+		msg_tmp->set_message_error(RPL_CHANNELMODEIS(_server->serverName, msg_tmp->_source, channel._name, "+i", ""));
 		_server->sendMessage_err(*msg_tmp);
 		channel.set_mode(I_MODE);
 	}
@@ -27,13 +27,13 @@ std::string Commands::mode__t(Channel &channel, User &user, const std::string &s
 	if (sign == '-' && channel.get_mode_status(T_MODE))
 	{
 		channel.unset_mode(T_MODE);
-		
-		msg_tmp->set_message_error(RPL_CHANNELMODEIS(_server->serverName,msg_tmp->_source, channel._name, "-t",""));
+
+		msg_tmp->set_message_error(RPL_CHANNELMODEIS(_server->serverName, msg_tmp->_source, channel._name, "-t", ""));
 		_server->sendMessage_err(*msg_tmp);
 	}
 	else if (sign == '+' && !channel.get_mode_status(T_MODE))
 	{
-		msg_tmp->set_message_error(RPL_CHANNELMODEIS(_server->serverName,msg_tmp->_source, channel._name, "+t",""));
+		msg_tmp->set_message_error(RPL_CHANNELMODEIS(_server->serverName, msg_tmp->_source, channel._name, "+t", ""));
 		_server->sendMessage_err(*msg_tmp);
 		channel.set_mode(T_MODE);
 	}
@@ -98,11 +98,12 @@ std::string Commands::mode_o(Channel &channel, User &user, const std::string &st
 	}
 	return "";
 }
-static bool check_number(std::string str) {
+static bool check_number(std::string str)
+{
 	for (int i = 0; i < str[i]; i++)
 		if (!isdigit(str[i]))
-    		return false;
-    return true;
+			return false;
+	return true;
 }
 
 std::string Commands::mode_l(Channel &channel, User &user, const std::string &str, char sign)
@@ -130,7 +131,7 @@ std::string Commands::mode_l(Channel &channel, User &user, const std::string &st
 		_server->sendMessage(*msg_tmp);
 		_server->sendMessageChannel(*msg_tmp, channel._name);
 		std::stringstream ss;
-    	ss << str;
+		ss << str;
 		ss >> channel._user_limit;
 		channel.set_mode(L_MODE);
 		return "";
