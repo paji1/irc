@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ozahir <ozahir@student.1337.ma>            +#+  +:+       +#+        */
+/*   By: tel-mouh <tel-mouh@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 23:05:11 by tel-mouh          #+#    #+#             */
-/*   Updated: 2023/07/26 23:38:23 by ozahir           ###   ########.fr       */
+/*   Updated: 2023/07/27 09:14:54 by tel-mouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "IrcSystem.hpp"
 
-int main(int ac, char	**av)
+int main(int ac, char **av)
 {
 	if (ac != 3)
 	{
@@ -24,12 +24,12 @@ int main(int ac, char	**av)
 	{
 		irc.set_server(Server(av[2], av[1]));
 	}
-	catch(std::string& e)
+	catch (std::string &e)
 	{
 		std::cerr << e << std::endl;
 		return 0;
 	}
-	
+
 	irc.start_loop();
 	return 0;
 }

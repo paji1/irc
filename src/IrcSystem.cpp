@@ -17,7 +17,7 @@ IrcSystem::~IrcSystem()
 }
 
 /*** --------------------------------- OVERLOAD ---------------------------------*/
-IrcSystem&   IrcSystem::operator=(IrcSystem const & other )
+IrcSystem &IrcSystem::operator=(IrcSystem const &other)
 {
 	(void)other;
 	return *this;
@@ -32,7 +32,7 @@ void IrcSystem::start_loop()
 		{
 			server->connect();
 		}
-		catch(const std::exception& e)
+		catch (const std::exception &e)
 		{
 			std::cerr << "server not connected" << '\n';
 			sleep(2);
@@ -41,19 +41,16 @@ void IrcSystem::start_loop()
 	}
 }
 
-
 void IrcSystem::set_server(Server _server)
 {
 	this->server = new Server(_server);
 }
 
-
-
 void IrcSystem::remove_server()
 {
 	// delete server;
 }
-void IrcSystem::addUser(const User& _user)
+void IrcSystem::addUser(const User &_user)
 {
 	users.push_back(_user);
 }
@@ -68,4 +65,3 @@ void IrcSystem::removeUser(std::string username)
 /*** --------------------------------- ACCESSOR ---------------------------------*/
 
 /*** --------------------------------- ACEPTION ---------------------------------*/
-
